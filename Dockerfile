@@ -17,7 +17,10 @@ RUN /bin/bash scripts/build.sh
 # Move to vmware/powerclicore after they fixed there bugs
 # and ported all modules to core.
 FROM microsoft/powershell:latest AS deployment_runner
-RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core"]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests less \
+    rm -rf /var/lib/apt/lists/*
+RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -Confirm:$false"]
 COPY --from=build_terraform /go/bin/terraform /bin/
 VOLUME [ "/data" ]
