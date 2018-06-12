@@ -18,7 +18,7 @@ RUN /bin/bash scripts/build.sh
 # and ported all modules to core.
 FROM microsoft/powershell:latest AS deployment_runner
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends --no-install-suggests less \
+    apt-get install -y --no-install-recommends --no-install-suggests less && \
     rm -rf /var/lib/apt/lists/*
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -Confirm:$false"]
