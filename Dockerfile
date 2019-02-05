@@ -89,10 +89,10 @@ RUN pacman -Syu --needed --noconfirm \
         shade
 
 COPY --from=build_terraform /go/bin/terraform /bin/
-COPY --chown=root:root --from=build_powershell /mnt/powershell-6.1.1-2-x86_64.pkg.tar.xz /
+COPY --chown=root:root --from=build_powershell /mnt/powershell-6.1.2-1-x86_64.pkg.tar.xz /
 RUN \
-    pacman -U --needed --noconfirm /powershell-6.1.1-2-x86_64.pkg.tar.xz && \
-    rm --force /powershell-6.1.1-2-x86_64.pkg.tar.xz && \
+    pacman -U --needed --noconfirm /powershell-6.1.2-1-x86_64.pkg.tar.xz && \
+    rm --force /powershell-6.1.2-1-x86_64.pkg.tar.xz && \
     cp /opt/dotnet/shared/Microsoft.NETCore.App/2.2.0/*.a /usr/lib/powershell/
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,Nuget"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
