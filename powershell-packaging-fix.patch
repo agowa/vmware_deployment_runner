@@ -1,8 +1,8 @@
 diff --git a/PKGBUILD b/PKGBUILD
-index e672273..a95157f 100644
+index 66394eb..b7d0bd6 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
-@@ -45,18 +45,41 @@ package() {
+@@ -80,19 +80,41 @@ package() {
    cd "$pkgname/src/powershell-unix"
  
    mkdir -p "$pkgdir/usr/lib/$pkgname"
@@ -34,18 +34,17 @@ index e672273..a95157f 100644
 +  popd
  
    mkdir -p "$pkgdir/usr/share/licenses/$pkgname"
-   cp ../../LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+   cp "../../LICENSE.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
  
    mkdir -p "$pkgdir/usr/bin"
 -  ln -s "/usr/lib/$pkgname/linux-x64/$binaryname" "$pkgdir/usr/bin/$binaryname"
 +  ln -s "/usr/lib/$pkgname/$binaryname" "$pkgdir/usr/bin/$binaryname"
-+
  
    chmod 644 \
--    $pkgdir/usr/lib/powershell/linux-x64/libhostfxr.so \
--    $pkgdir/usr/lib/powershell/linux-x64/libhostpolicy.so \
--    $pkgdir/usr/lib/powershell/linux-x64/en-US/default.help.txt \
--    $pkgdir/usr/lib/powershell/linux-x64/Modules/PSDesiredStateConfiguration/PSDesiredStateConfiguration.psm1
+-    "$pkgdir/usr/lib/powershell/linux-x64/libhostfxr.so" \
+-    "$pkgdir/usr/lib/powershell/linux-x64/libhostpolicy.so" \
+-    "$pkgdir/usr/lib/powershell/linux-x64/en-US/default.help.txt" \
+-    "$pkgdir/usr/lib/powershell/linux-x64/Modules/PSDesiredStateConfiguration/PSDesiredStateConfiguration.psm1"
 +    $pkgdir/usr/lib/powershell/libhostfxr.so \
 +    $pkgdir/usr/lib/powershell/libhostpolicy.so \
 +    $pkgdir/usr/lib/powershell/en-US/default.help.txt \

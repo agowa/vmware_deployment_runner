@@ -9,6 +9,7 @@ ENV TF_RELEASE=true
 # Only build the linux x64 version
 ENV XC_ARCH=amd64
 ENV XC_OS=linux
+ENV GO111MODULE=on
 WORKDIR /go/src/github.com/hashicorp/terraform
 RUN git clone https://github.com/hashicorp/terraform.git .
 RUN /bin/bash scripts/build.sh
@@ -24,12 +25,13 @@ ADD --chown=build:build powershell-packaging-fix.patch /mnt/
 RUN chown build:build /mnt -R
 USER build
 WORKDIR /mnt
-RUN git apply powershell-packaging-fix.patch
+RUN patch < powershell-packaging-fix.patch
 RUN makepkg
 
 
 FROM archlinux/base:latest
 RUN pacman -Syu --needed --noconfirm \
+    && mkdir /var/cache/pacman/pkg/ \
     && pacman -S --needed --noconfirm \
         bash \
         python2 \
@@ -49,7 +51,7 @@ RUN pacman -Syu --needed --noconfirm \
         python2-jinja \
         python2-httplib2 \
         python2-boto \
-        python2-openstackclient \
+        python2-osc-lib \
         python2-pip \
         python-pip \
         python-crypto \
@@ -67,6 +69,7 @@ RUN pacman -Syu --needed --noconfirm \
         python-pywinrm \
         python-systemd \
         python-openstackclient \
+        python-osc-lib \
         sshpass \
         fakeroot \
         python-setuptools \
@@ -89,11 +92,11 @@ RUN pacman -Syu --needed --noconfirm \
         shade
 
 COPY --from=build_terraform /go/bin/terraform /bin/
-COPY --chown=root:root --from=build_powershell /mnt/powershell-6.1.2-1-x86_64.pkg.tar.xz /
+COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar.xz /
 RUN \
-    pacman -U --needed --noconfirm /powershell-6.1.2-1-x86_64.pkg.tar.xz && \
-    rm --force /powershell-6.1.2-1-x86_64.pkg.tar.xz && \
-    cp /opt/dotnet/shared/Microsoft.NETCore.App/2.2.0/*.a /usr/lib/powershell/
+    pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar.xz && \
+    rm --force /powershell-*-x86_64.pkg.tar.xz && \
+    cp /opt/dotnet/shared/Microsoft.NETCore.App/*/*.a /usr/lib/powershell/
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,Nuget"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
 VOLUME [ "/playbook" ]
