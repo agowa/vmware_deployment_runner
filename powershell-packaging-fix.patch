@@ -2,7 +2,7 @@ diff --git a/PKGBUILD b/PKGBUILD
 index 66394eb..b7d0bd6 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
-@@ -80,19 +80,41 @@ package() {
+@@ -80,18 +80,40 @@ package() {
    cd "$pkgname/src/powershell-unix"
  
    mkdir -p "$pkgdir/usr/lib/$pkgname"
@@ -12,14 +12,14 @@ index 66394eb..b7d0bd6 100644
 +  cp bin/*.a "$pkgdir/usr/lib/$pkgname"
 +  chmod 755 "$pkgdir/usr/lib/$pkgname/$binaryname"
 +
-+  mkdir -p $pkgdir/usr/lib/powershell/Modules/PackageManagement/1.2.4
-+  pushd $pkgdir/usr/lib/powershell/Modules/PackageManagement/1.2.4
-+  curl 'https://psg-prod-eastus.azureedge.net/packages/packagemanagement.1.2.4.nupkg' | unzip -
++  mkdir -p $pkgdir/usr/lib/powershell/Modules/PackageManagement/1.4.5
++  pushd $pkgdir/usr/lib/powershell/Modules/PackageManagement/1.4.5
++  curl 'https://psg-prod-eastus.azureedge.net/packages/packagemanagement.1.4.5.nupkg' | unzip -
 +  mv [Content_Types].xml PSGetModuleInfo.xml
 +  popd
-+  mkdir -p $pkgdir/usr/lib/powershell/Modules/PowerShellGet/2.0.3
-+  pushd $pkgdir/usr/lib/powershell/Modules/PowerShellGet/2.0.3
-+  curl 'https://psg-prod-eastus.azureedge.net/packages/powershellget.2.0.3.nupkg' | unzip -
++  mkdir -p $pkgdir/usr/lib/powershell/Modules/PowerShellGet/2.2.2
++  pushd $pkgdir/usr/lib/powershell/Modules/PowerShellGet/2.2.2
++  curl 'https://psg-prod-eastus.azureedge.net/packages/powershellget.2.2.2.nupkg' | unzip -
 +  mv [Content_Types].xml PSGetModuleInfo.xml
 +  popd
 +  mkdir -p $pkgdir/usr/lib/powershell/Modules/NuGet/1.3.3
@@ -29,7 +29,7 @@ index 66394eb..b7d0bd6 100644
 +  popd
 +  mkdir -p $pkgdir/usr/lib/powershell/Modules/PSReadLine/2.0.0
 +  pushd $pkgdir/usr/lib/powershell/Modules/PSReadLine/2.0.0
-+  curl 'https://psg-prod-eastus.azureedge.net/packages/psreadline.2.0.0-beta3.nupkg' | unzip -
++  curl 'https://psg-prod-eastus.azureedge.net/packages/psreadline.2.0.0-rc1.nupkg' | unzip -
 +  mv [Content_Types].xml PSGetModuleInfo.xml
 +  popd
  

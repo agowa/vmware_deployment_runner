@@ -23,6 +23,8 @@ RUN useradd build --home /mnt --system
 RUN git clone https://aur.archlinux.org/powershell.git /mnt
 ADD --chown=build:build powershell-packaging-fix.patch /mnt/
 RUN chown build:build /mnt -R
+# "Ignore" this specific deprecation warning...
+RUN sed -ie 's_#warning "The <sys/sysctl.h> header is deprecated and will be removed."__' /usr/include/sys/sysctl.h
 USER build
 WORKDIR /mnt
 RUN patch < powershell-packaging-fix.patch
