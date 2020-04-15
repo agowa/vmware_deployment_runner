@@ -17,17 +17,15 @@ RUN /bin/bash scripts/build.sh
 
 # STAGE build_powershell
 FROM archlinux/base:latest AS build_powershell
-RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake dotnet-sdk make gcc fakeroot awk busybox
+RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake dotnet-sdk make gcc fakeroot awk busybox lttng-ust openssl-1.0
 RUN ln -s /bin/busybox /bin/unzip
 RUN useradd build --home /mnt --system
 RUN git clone https://aur.archlinux.org/powershell.git /mnt
 ADD --chown=build:build powershell-packaging-fix.patch /mnt/
 RUN chown build:build /mnt -R
-# "Ignore" this specific deprecation warning...
-RUN sed -ie 's_#warning "The <sys/sysctl.h> header is deprecated and will be removed."__' /usr/include/sys/sysctl.h
 USER build
 WORKDIR /mnt
-RUN patch < powershell-packaging-fix.patch
+RUN patch < 0001-modules.patch
 RUN makepkg
 
 
