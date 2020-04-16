@@ -21,7 +21,7 @@ RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake d
 RUN ln -s /bin/busybox /bin/unzip
 RUN useradd build --home /mnt --system
 RUN git clone https://aur.archlinux.org/powershell.git /mnt
-ADD --chown=build:build powershell-packaging-fix.patch /mnt/
+ADD --chown=build:build 0001-modules.patch /mnt/
 RUN chown build:build /mnt -R
 USER build
 WORKDIR /mnt
