@@ -20,12 +20,10 @@ FROM archlinux/base:latest AS build_powershell
 RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake dotnet-sdk make gcc fakeroot awk busybox lttng-ust openssl-1.0
 RUN ln -s /bin/busybox /bin/unzip
 RUN useradd build --home /mnt --system
-RUN git clone https://aur.archlinux.org/powershell.git /mnt
-ADD --chown=build:build 0001-modules.patch /mnt/
+RUN git clone https://aur.archlinux.org/powershell-bin.git /mnt
 RUN chown build:build /mnt -R
 USER build
 WORKDIR /mnt
-RUN patch < 0001-modules.patch
 RUN makepkg
 
 
@@ -34,9 +32,8 @@ COPY --from=build_terraform /go/bin/terraform /bin/
 COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar.xz /
 RUN \
     pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar.xz && \
-    rm --force /powershell-*-x86_64.pkg.tar.xz && \
-    cp /opt/dotnet/shared/Microsoft.NETCore.App/*/*.a /usr/lib/powershell/
-RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,Nuget"]
+    rm --force /powershell-*-x86_64.pkg.tar.xz
+RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,NuGet"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
 VOLUME [ "/playbook" ]
 ENV isDocker=True
