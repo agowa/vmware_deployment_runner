@@ -31,6 +31,7 @@ FROM agowa338/ansible:latest
 COPY --from=build_terraform /go/bin/terraform /bin/
 COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar.xz /
 RUN \
+    pacman -Syy && \
     pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar.xz && \
     rm --force /powershell-*-x86_64.pkg.tar.xz
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,NuGet"]
