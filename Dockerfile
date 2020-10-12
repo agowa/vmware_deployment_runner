@@ -31,11 +31,11 @@ RUN makepkg
 
 FROM agowa338/ansible:latest
 COPY --from=build_terraform /go/bin/terraform /bin/
-COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar.xz /
+COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar* /
 RUN \
     pacman -Syy && \
-    pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar.xz && \
-    rm --force /powershell-*-x86_64.pkg.tar.xz
+    pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar* && \
+    rm --force /powershell-*-x86_64.pkg.tar*
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,NuGet"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
 VOLUME [ "/playbook" ]
