@@ -35,7 +35,7 @@ COPY --chown=root:root --from=build_powershell /mnt/powershell-*-x86_64.pkg.tar*
 RUN \
     pacman -Syy && \
     pacman -U --needed --noconfirm /powershell-*-x86_64.pkg.tar* && \
-    pacman -S packer
+    pacman -S packer && \
     rm --force /powershell-*-x86_64.pkg.tar*
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,NuGet"]
 RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
