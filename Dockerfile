@@ -12,6 +12,7 @@ ENV XC_OS=linux
 ENV GO111MODULE=on
 WORKDIR /go/src/github.com/hashicorp/terraform
 RUN git clone https://github.com/hashicorp/terraform.git .
+RUN sed -i "s/go get/go install/g" scripts/build.sh
 RUN /bin/bash scripts/build.sh
 RUN go mod vendor
 RUN /bin/bash scripts/build.sh
