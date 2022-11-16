@@ -39,7 +39,7 @@ RUN \
     pacman -S --needed --noconfirm packer && \
     rm --force /powershell-*-x86_64.pkg.tar*
 RUN ["pwsh", "-Command", "Install-Module -Force VMware.VimAutomation.Core,PowerShellGet,PSScriptAnalyzer,PSReadLine,PackageManagement,NuGet"]
-RUN ["pwsh", "-Command", "Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
+RUN ["pwsh", "-Command", "Import-Module Vmware.VimAutomation.Core; Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Warn -Confirm:$false"]
 VOLUME [ "/playbook" ]
 ENV isDocker=True
 CMD [ "/bin/bash", "/playbook/plays/play.sh" ]
