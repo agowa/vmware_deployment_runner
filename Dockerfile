@@ -20,7 +20,7 @@ RUN /bin/bash scripts/build.sh
 
 # STAGE build_powershell
 FROM archlinux/archlinux:base AS build_powershell
-RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake dotnet-sdk make gcc fakeroot awk busybox lttng-ust openssl-1.0
+RUN pacman -Syu --needed --noconfirm git binutils base-devel icu openssl cmake dotnet-sdk make gcc fakeroot awk busybox lttng-ust openssl-1.1
 RUN ln -s /bin/busybox /bin/unzip
 RUN useradd build --home /mnt --system
 RUN git clone https://aur.archlinux.org/powershell-bin.git /mnt
